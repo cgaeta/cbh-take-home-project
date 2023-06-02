@@ -25,13 +25,14 @@ const refineCandidate = (data) => {
   return typeof data !== "string" ? JSON.stringify(data) : data;
 };
 
+/** Returns a string if 256 characters or fewer, else returns a hash */
+const validateLength = (key) =>
+  key.length > MAX_PARTITION_KEY_LENGTH ? createHash(key) : key;
+
 exports.deterministicPartitionKey = (event) => {
   let candidate = getKeyCandidate(event);
 
   candidate = refineCandidate(candidate);
 
-  if (candidate.length > MAX_PARTITION_KEY_LENGTH) {
-    candidate = createHash(candidate);
-  }
-  return candidate;
+  return validateLength(candidate);
 };
