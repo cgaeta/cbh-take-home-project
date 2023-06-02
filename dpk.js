@@ -8,8 +8,12 @@ const MAX_PARTITION_KEY_LENGTH = 256;
 const createHash = (data) =>
   crypto.createHash("sha3-512").update(data).digest("hex");
 
-/** Hashes an event object */
-const hashEvent = (event) => {
+/** Returns an event's partition key if present, otherwise returns the hashed event */
+const getKeyCandidate = (event) => {
+  if (!event) {
+    return;
+  } else if (event.partitionKey) return event.partitionKey;
+
   const data = JSON.stringify(event);
   return createHash(data);
 };
@@ -22,9 +26,7 @@ const refineCandidate = (data) => {
 };
 
 exports.deterministicPartitionKey = (event) => {
-  let candidate;
-
-  candidate = event && (event.partitionKey ?? hashEvent(event));
+  let candidate = getKeyCandidate(event);
 
   candidate = refineCandidate(candidate);
 
