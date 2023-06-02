@@ -1,0 +1,7 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`deterministicPartitionKey Hashes event data when event has no hash key 1`] = `"267e2edaa9a0d8a5c6a785d953253acb5c086cc0e2f8582f03c2e0c96959a72cdb97579d973e10f56ef3e2c6350609cc83417594f8253d37e19b6683e8e3481d"`;
+
+exports[`deterministicPartitionKey Returns a hash when the partition key is 256 characters or more 1`] = `"d078a4569678c1f1680cf5b5abd40e50b1e877703a48fd05e7280fa53e1f3fdf73332993c82b44d27f6ff3f0ece047352093cf49f81f07781e209617ecff3623"`;
+
+exports[`deterministicPartitionKey Returns a hash when the partition key is an object that stringifies to be over 256 characters 1`] = `"137a1c204d21581aab5ee4e2ce99a958f9a661728d9fefa55b1498ab9bba1dd0a66cf62a05ba8e697876aaa182eab5b6eef6ab2e6df4647c60224f14abe5421c"`;
