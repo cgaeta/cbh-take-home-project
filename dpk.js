@@ -4,7 +4,7 @@ const crypto = require("crypto");
 const TRIVIAL_PARTITION_KEY = "0";
 const MAX_PARTITION_KEY_LENGTH = 256;
 
-/** hash that we're using consistently across this exercise */
+/** Hash that we're using consistently across this exercise */
 const createHash = (data) =>
   crypto.createHash("sha3-512").update(data).digest("hex");
 
@@ -14,18 +14,20 @@ const hashEvent = (event) => {
   return createHash(data);
 };
 
+/** Stringifies data if it isn't already a string */
+const refineCandidate = (data) => {
+  if (!data) return TRIVIAL_PARTITION_KEY;
+
+  return typeof data !== "string" ? JSON.stringify(data) : data;
+};
+
 exports.deterministicPartitionKey = (event) => {
   let candidate;
 
   candidate = event && (event.partitionKey ?? hashEvent(event));
 
-  if (candidate) {
-    if (typeof candidate !== "string") {
-      candidate = JSON.stringify(candidate);
-    }
-  } else {
-    candidate = TRIVIAL_PARTITION_KEY;
-  }
+  candidate = refineCandidate(candidate);
+
   if (candidate.length > MAX_PARTITION_KEY_LENGTH) {
     candidate = createHash(candidate);
   }
