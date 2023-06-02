@@ -9,3 +9,7 @@ You've been asked to refactor the function `deterministicPartitionKey` in [`dpk.
 You will be graded on the exhaustiveness and quality of your unit tests, the depth of your refactor, and the level of insight into your thought process provided by the written explanation.
 
 ## Your Explanation Here
+
+My refactoring of `dpk.js` started with identifying specific operations being performed on the event and other pieces of data in the unrefactored `deterministicPartitionKey` function. For example, `getKeyCandidate` comes from the first set of logical branches that tested whether `event` was defined, then either took a defined `partitionKey` or hashed the event. I extracted discrete pieces of logic like this from `deterministicPartitionKey`. I also extracted a `createHash` function, as the same hash algorithm and digest were used repeatedly in the code; though the operation was simple and easy to copy / paste, extracting it to a distinct function makes it easier to avoid copying the hash incorrectly or accidentally modifying it in different places.
+
+With this refactor, each operation can be reasoned about in its own scope, without having to keep track of how data flows within `deterministicPartitionKey`.
